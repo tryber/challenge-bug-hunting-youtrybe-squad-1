@@ -10,7 +10,7 @@ class VideoSideBar extends Component {
     return (
       <Fragment>
         {relatedVideos.map((video) => (
-          <Fragment key={video.id.videoId} >
+          <Fragment key={video.id.videoId}>
             <div
               className="suggested-video"
               onClick={() => handleSelectedVideo(video.id.videoId)}
