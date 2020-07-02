@@ -1,6 +1,6 @@
 # Boas vindas ao repositório do Youtube Bug Hunting!!!
 
-Você já usa o GitHub diariamente para desenvolver os exercícios e os projetos, certo? Agora, para desenvolver o desáfio, você deverá seguir as instruções a seguir para conseguir resolvê-lo. Se tiver qualquer dúvida, nos envie por _Slack_!!! #vqv 🚀
+Você já usa o GitHub diariamente para desenvolver os exercícios e os projetos, certo? Agora, para desenvolver o desáfio, você deverá seguir as instruções a seguir para conseguir resolvê-lo. Se tiver qualquer dúvida, nos envie por _Slack_! #vqv 🚀
 
 Aqui você vai encontrar os detalhes de o que fazer antes de iniciar o desenvolvimento do seu desáfio.
 
