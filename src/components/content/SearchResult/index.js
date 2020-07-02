@@ -16,6 +16,14 @@ class SearchResult extends Component {
   }
 
   componentDidMount() {
+    this.getVideos();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) this.getVideos();
+  }
+
+  getVideos() {
     const { searchInput: searchParam } = this.props.location.state;
 
     searchVideos(searchParam).then(
