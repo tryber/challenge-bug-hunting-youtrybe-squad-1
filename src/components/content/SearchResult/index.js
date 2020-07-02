@@ -18,11 +18,10 @@ class SearchResult extends Component {
   componentDidMount() {
     const { searchInput: searchParam } = this.props.location.state;
 
-    searchVideos(searchParam)
-      .then((data) => {
-        this.setState({ data: data.items });
-      })
-      .catch((error) => this.setState({ error }));
+    searchVideos(searchParam).then(
+      (data) => this.setState({ data: data.items }),
+      (error) => this.setState({ error }),
+    );
   }
 
   render() {
