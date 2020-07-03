@@ -27,7 +27,7 @@ function renderWithRouter(ui, routeConfigs = {}) {
 }
 
 describe('Funcionalidades Componente Header', () => {
-  it('Renderiza apenas um link na tela', () => {
+  it('Renderiza dois links na tela', () => {
     const { container } = renderWithRouter(<App />);
     const links = container.querySelectorAll('a');
     expect(links.length).toBe(2);
