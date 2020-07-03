@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 
 class VideoPlayerInfo extends Component {
-
   render() {
     const { title, statisticsInfo } = this.props;
     return (
-      <div data-testid='videoinfo' className="video-info">
-        <h1 className="title">
-          {title}
-        </h1>
+      <div data-testid="videoinfo" className="video-info">
+        <h1 className="title">{title}</h1>
         <div className="video-toolbar">
           <span className="video-views">
-            {statisticsInfo.viewCount} views
-        </span>
+            {statisticsInfo.viewCount}
+            views
+          </span>
           <span className="right-menu">
             <div className="thumb-wrapper">
               <a className="thumb-up-btn">
                 <i className="material-icons">thumb_up</i>
-                <span className="thumbs-count">
-                  {statisticsInfo.likeCount}
-                </span>
+                <span className="thumbs-count">{statisticsInfo.likeCount}</span>
               </a>
 
               <a className="thumb-down-btn">

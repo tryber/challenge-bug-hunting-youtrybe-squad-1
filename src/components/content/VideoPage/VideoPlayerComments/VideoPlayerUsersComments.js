@@ -1,27 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import profileIcon from './../../../../assets/profile.jpg'
+import React, { Component } from 'react';
+import profileIcon from '../../../../assets/profile.jpg';
 
 class VideoPlayerUsersComments extends Component {
+  static formatDate(publishedAt) {
+    const dateObj = new Date(publishedAt);
 
-  formatDate(publishedAt) { // colocar o bug aqui de data nao formatada
-    const dateObj = new Date(publishedAt)
-
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December',
     ];
 
     const month = monthNames[dateObj.getMonth()];
     const day = dateObj.getUTCDate();
     const year = dateObj.getUTCFullYear();
 
-    return `Published on ${month} ${day}, ${year}`
+    return `Published on ${month} ${day}, ${year}`;
   }
-  render() {
 
+  render() {
     const { videoComments } = this.props;
     // authorProfileImageUrl
     return (
-      <Fragment>
+      <>
         {
           videoComments.map((comment) => (
             <div className="comment" key={comment.id}>
@@ -29,9 +28,14 @@ class VideoPlayerUsersComments extends Component {
                 <i className="material-icons account-icon">account_circle</i>
               </div>
               <div className="comment-info">
-                <h3>{comment.snippet.topLevelComment.snippet.authorDisplayName}
+                <h3>
+                  {comment.snippet.topLevelComment.snippet.authorDisplayName}
                   <span>
-                    {this.formatDate(comment.snippet.topLevelComment.snippet.publishedAt)}
+                    {VideoPlayerUsersComments.formatDate(comment
+                      .snippet
+                      .topLevelComment
+                      .snippet
+                      .publishedAt)}
                   </span>
                 </h3>
                 <p>{comment.snippet.topLevelComment.snippet.textDisplay}</p>
@@ -44,7 +48,7 @@ class VideoPlayerUsersComments extends Component {
                   </a>
                   <a className="thumb-up-btn">
                     <i className="material-icons">thumb_down</i>
-                    <span className="thumbs-count"></span>
+                    <span className="thumbs-count" />
                   </a>
                   <a>REPLY</a>
                 </div>
@@ -52,7 +56,7 @@ class VideoPlayerUsersComments extends Component {
             </div>
           ))
         }
-      </Fragment>
+      </>
     );
   }
 }
