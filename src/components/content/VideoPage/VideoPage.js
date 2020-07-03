@@ -11,9 +11,14 @@ class VideoPage extends Component {
   constructor(props) {
     super(props);
 
+    const {
+      match: { params: { videoId } },
+      location: { state: { data } },
+    } = this.props;
+
     this.state = {
-      videoId: this.props.match.params.videoId,
-      relatedVideos: this.props.location.state.data,
+      videoId,
+      relatedVideos: data,
       shouldRedirect: false,
       videoInfo: null,
       videoComments: null,
@@ -28,36 +33,32 @@ class VideoPage extends Component {
 
   handleSelectedVideo(videoId) {
     this.setState({ videoId });
-    getVideoInfo(this.state.videoId).then((data) =>
-      this.setState({ videoInfo: data.items[0] }),
-    );
+    getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
 
-    getVideoComments(this.state.videoId).then((data) =>
-      this.setState({ videoComments: data.items }),
-    );
+    getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
     return this.setState({ shouldRedirect: true });
   }
 
   mountVideoPage() {
-    this.setState({ shouldRedirect: false });
-    getVideoInfo(this.state.videoId).then((data) =>
-      this.setState({ videoInfo: data.items[0] }),
-    );
+    const { videoId } = this.state;
 
-    getVideoComments(this.state.videoId).then((data) =>
-      this.setState({ videoComments: data.items }),
-    );
+    this.setState({ shouldRedirect: false });
+    getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
+
+    getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
   }
 
   render() {
-    if (!this.state.videoInfo || !this.state.videoComments) return <main />;
+    const { videoId, videoComments, shouldRedirect, relatedVideos, videoInfo } = this.state;
 
-    if (this.state.shouldRedirect) {
+    if (!videoInfo || !videoComments) return <main />;
+
+    if (shouldRedirect) {
       return (
         <Redirect
           to={{
-            pathname: `/watch/${this.state.videoId}`,
-            state: { data: this.state.relatedVideos },
+            pathname: `/watch/${videoId}`,
+            state: { data: relatedVideos },
           }}
         />
       );
@@ -66,24 +67,27 @@ class VideoPage extends Component {
     return (
       <main>
         <section className="player">
-          <VideoPlayer embedId={this.state.videoId} title={this.state.videoInfo.snippet.title}/>
+          <VideoPlayer
+            embedId={videoId}
+            title={videoInfo.snippet.title}
+          />
           <VideoPlayerInfo
-            statisticsInfo={this.state.videoInfo.statistics}
-            title={this.state.videoInfo.snippet.title}
+            statisticsInfo={videoInfo.statistics}
+            title={videoInfo.snippet.title}
           />
           <VideoPlayerDescription
-            channelTitle={this.state.videoInfo.snippet.channelTitle}
-            description={this.state.videoInfo.snippet.description}
-            publishedAt={this.state.videoInfo.snippet.publishedAt}
+            channelTitle={videoInfo.snippet.channelTitle}
+            description={videoInfo.snippet.description}
+            publishedAt={videoInfo.snippet.publishedAt}
           />
           <VideoPlayerComments
-            statisticsInfo={this.state.videoInfo.statistics}
-            videoComments={this.state.videoComments}
+            statisticsInfo={videoInfo.statistics}
+            videoComments={videoComments}
           />
         </section>
         <section className="sidebar">
           <VideoSideBar
-            relatedVideos={this.state.relatedVideos}
+            relatedVideos={relatedVideos}
             handleSelectedVideo={this.handleSelectedVideo}
           />
         </section>
