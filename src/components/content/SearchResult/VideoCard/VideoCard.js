@@ -10,8 +10,7 @@ class VideoCard extends Component {
   render() {
     const { video } = this.props;
     const { id: { kind }, snippet } = video;
-    const { thumbnails: { medium: { url } }, channelTitle,
-      description, title } = snippet;
+    const { thumbnails: { medium: { url } }, channelTitle, description, title } = snippet;
     return (
       <div className="suggested-video search-result">
         <div className="thumbnail">
