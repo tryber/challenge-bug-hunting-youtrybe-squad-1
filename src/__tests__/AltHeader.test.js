@@ -30,7 +30,7 @@ describe('Funcionalidades Componente Header', () => {
   it('Renderiza dois links na tela', () => {
     const { container } = renderWithRouter(<App />);
     const links = container.querySelectorAll('a');
-    expect(links.length).toBe(2);
+    expect(links.length).toBe(3);
     expect(links[1].href).toMatch('/results');
   });
 

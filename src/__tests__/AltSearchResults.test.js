@@ -53,7 +53,7 @@ describe('Funcionalidades Componente Search Result', () => {
     const { history } = renderWithRouter(<App />, { route: '/results/bugs' });
     await waitFor(() => expect(api.searchVideos).toHaveBeenCalled());
 
-    const videoLink = screen.getAllByRole('link')[2];
+    const videoLink = screen.getAllByRole('link')[3];
     fireEvent.click(videoLink);
     expect(history.location.pathname).toMatch(/watch/i);
 

@@ -15,14 +15,13 @@ class ViewedVideos extends Component {
   }
 
   mountViewedComponent() {
-    const data = JSON.parse(localStorage.getItem('viewedVideos'));
-    console.log(data, JSON.parse(localStorage.getItem('viewedVideos')));
+    const data = new Set(JSON.parse(localStorage.getItem('viewedVideos') || '[]'));
     return this.setState({ data: [...data] });
   }
 
   render() {
     const { data } = this.state;
-
+    if (!data) return <h4>Sem vídeos favoritos</h4>;
     return (
       <div>
         {data.map((item) => (
