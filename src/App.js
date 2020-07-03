@@ -17,12 +17,12 @@ class App extends Component {
         <div className="App">
           <Header />
           <Switch>
-            <Route exact path="/" component={InitialPage} />
             <Route
               exact
-              path="/watch/:videoId"
-              render={(props) => <VideoPage {...props} />}
+              path="/"
+              render={(props) => <SearchResult {...props} match={{ params: { searchParam: 'trybe' } }} />}
             />
+            <Route exact path="/watch/:videoId" render={(props) => <VideoPage {...props} />} />
             <Route
               exact
               path="/results/:searchParam"
