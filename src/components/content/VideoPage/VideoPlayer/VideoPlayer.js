@@ -5,7 +5,7 @@ import '../../../../css/chanelInfo.css';
 class VideoPlayer extends Component {
   render() {
     const { embedId, title } = this.props;
-    const playerURL = `https://www.youtube.com/embed/${embedId}`;
+    const playerURL = `https://www.youtube.com/embed/${embedId}?autoplay=1`;
     return (
       <div className="youtube-player">
         <iframe

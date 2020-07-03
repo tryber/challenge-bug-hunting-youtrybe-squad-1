@@ -46,7 +46,7 @@ class SearchResult extends Component {
           <Link
             className="thumbnail-card"
             key={item.etag}
-            to={`/watch/${item.id.videoId}`}
+            to={{ pathname: `/watch/${item.id.videoId}`, state: { item } }}
           >
             <VideoCard video={item} />
           </Link>

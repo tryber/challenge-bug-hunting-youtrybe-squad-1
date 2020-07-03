@@ -7,8 +7,15 @@ class VideoCard extends Component {
     return !!(props === param1 || props === param2);
   }
 
-  render() {
+  constructor(props) {
+    super(props);
     const { video } = this.props;
+
+    this.state = { video };
+  }
+
+  render() {
+    const { video } = this.state;
     const { id: { kind }, snippet } = video;
     const { thumbnails: { medium: { url } }, channelTitle, description, title } = snippet;
     return (
