@@ -11,10 +11,7 @@ class VideoPage extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      match: { params: { videoId } },
-      location: { state: { data } },
-    } = this.props;
+    const { match: { params: { videoId } } } = this.props;
 
     this.state = {
       videoId,
