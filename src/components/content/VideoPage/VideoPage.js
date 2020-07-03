@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
 import VideoPlayerDescription from './VideoPlayer/VideoPlayerDescription';
 import VideoPlayerInfo from './VideoPlayer/VideoPlayerInfo';
 import VideoPlayerComments from './VideoPlayerComments/VideoPlayerComments';
 import VideoSideBar from './VideoSideBar/VideoSideBar';
-import { getVideoInfo, getVideoComments } from './../../../api/service';
+import { getVideoInfo, getVideoComments } from '../../../api/service';
 
 class VideoPage extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class VideoPage extends Component {
     this.state = {
       videoId: this.props.match.params.videoId,
       relatedVideos: this.props.location.state.data,
+      shouldRedirect: false,
       videoInfo: null,
       videoComments: null,
     };
@@ -21,17 +23,11 @@ class VideoPage extends Component {
   }
 
   componentDidMount() {
-    getVideoInfo(this.state.videoId).then((data) =>
-      this.setState({ videoInfo: data.items[0] }),
-    );
-
-    getVideoComments(this.state.videoId).then((data) =>
-      this.setState({ videoComments: data.items }),
-    );
+    this.mountVideoPage();
   }
 
   handleSelectedVideo(videoId) {
-    this.setState({ videoId: videoId });
+    this.setState({ videoId });
     getVideoInfo(this.state.videoId).then((data) =>
       this.setState({ videoInfo: data.items[0] }),
     );
@@ -39,12 +35,33 @@ class VideoPage extends Component {
     getVideoComments(this.state.videoId).then((data) =>
       this.setState({ videoComments: data.items }),
     );
-    this.props.history.push(`/watch/${videoId}`);
+    return this.setState({ shouldRedirect: true });
+  }
+
+  mountVideoPage() {
+    this.setState({ shouldRedirect: false });
+    getVideoInfo(this.state.videoId).then((data) =>
+      this.setState({ videoInfo: data.items[0] }),
+    );
+
+    getVideoComments(this.state.videoId).then((data) =>
+      this.setState({ videoComments: data.items }),
+    );
   }
 
   render() {
-    if (!this.state.videoInfo || !this.state.videoComments)
-      return <main></main>;
+    if (!this.state.videoInfo || !this.state.videoComments) return <main />;
+
+    if (this.state.shouldRedirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/watch/${this.state.videoId}`,
+            state: { data: this.state.relatedVideos },
+          }}
+        />
+      );
+    }
 
     return (
       <main>

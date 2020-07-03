@@ -5,15 +5,35 @@ import VideoThumbNailInfo from './VideoThumbNailInfo';
 import '../../../../css/sideBar.css';
 
 class VideoSideBar extends Component {
+  static onKeyPress(event, callback, value) {
+    const enterOrSpace = event.key === 'Enter'
+      || event.key === ' '
+      || event.key === 'Spacebar'
+      || event.which === 13
+      || event.which === 32;
+    if (enterOrSpace) {
+      event.preventDefault();
+      return callback(value);
+    }
+  }
+
   render() {
     const { relatedVideos, handleSelectedVideo } = this.props;
     return (
-      <Fragment>
-        {relatedVideos.map((video) => (
-          <Fragment key={video.id.videoId}>
+      <>
+        {relatedVideos.map((video, index) => (
+          <Fragment key={`Video nr.: ${index}-ID: ${video.id.videoId}`}>
             <div
+              role="button"
+              tabIndex={0}
+              data-testid="selectedVideo"
               className="suggested-video"
               onClick={() => handleSelectedVideo(video.id.videoId)}
+              onKeyPress={(event) => VideoSideBar.onKeyPress(
+                event,
+                handleSelectedVideo,
+                video.id.videoId,
+              )}
             >
               <VideoThumbNail
                 videoId={video.id.videoId}
@@ -26,7 +46,7 @@ class VideoSideBar extends Component {
             </div>
           </Fragment>
         ))}
-      </Fragment>
+      </>
     );
   }
 }

@@ -17,19 +17,19 @@ class VideoCard extends Component {
             alt="thumbnail"
             src={this.props.video.snippet.thumbnails.medium.url}
           />
-          {this.props.video.id.kind === 'youtube#video' ||
-          this.props.video.id.kind === 'youtube#channel' ? (
-            <span>17:30</span>
-          ) : null}
+          {this.props.video.id.kind === 'youtube#video'
+            || (this.props.video.id.kind === 'youtube#channel' && (
+              <span>17:30</span>
+            ))}
         </div>
 
         <div className="thumbnail-info">
           <h2>{this.props.video.snippet.title}</h2>
           <div className="channel">{this.props.video.snippet.channelTitle}</div>
-          {this.props.video.id.kind === 'youtube#video' ||
-          this.props.video.id.kind === 'youtube#channel' ? (
-            <div className="views">792K views</div>
-          ) : null}
+          {this.props.video.id.kind === 'youtube#video'
+            || (this.props.video.id.kind === 'youtube#channel' && (
+              <div className="views">792K views</div>
+            ))}
           <p className="description">{this.props.video.snippet.description}</p>
         </div>
       </div>

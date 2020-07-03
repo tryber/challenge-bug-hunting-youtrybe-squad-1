@@ -6,25 +6,23 @@ import VideoPage from '../components/content/VideoPage/VideoPage';
 import mockSearchVideo from '../__mocks__/mockSearchVideo';
 import mockGetVideoInfo from '../__mocks__/mockGetVideoInfo';
 import mockGetVideoComments from '../__mocks__/mockGetVideoComments';
-import * as api from '../api/service'
+import * as api from '../api/service';
 
 jest.mock('react-router-dom', () => {
   const moduloOriginal = jest.requireActual('react-router-dom');
   return {
     ...moduloOriginal,
     BrowserRouter: ({ children }) => (<div>{children}</div>),
-    useHistory: () => ({
-      push: jest.fn()
-    })
+    useHistory: () => ({ push: jest.fn() }),
   };
-})
+});
 
 jest.mock('../api/service');
 api.getVideoInfo.mockImplementation(
-  () => Promise.resolve(mockGetVideoInfo)
+  () => Promise.resolve(mockGetVideoInfo),
 );
 api.getVideoComments.mockImplementation(
-  () => Promise.resolve(mockGetVideoComments)
+  () => Promise.resolve(mockGetVideoComments),
 );
 
 function renderWithRouter(ui, routeConfigs = {}) {
@@ -41,10 +39,10 @@ describe('Funcionalidades Componente Video Page', () => {
     const randomVideoID = mockSearchVideo.items[1].id.videoId;
 
     renderWithRouter(
-        <VideoPage
-          match={{ params: { videoId: randomVideoID } }}
-          location={{ state: { data: mockSearchVideo.items } }}
-        />
+      <VideoPage
+        match={{ params: { videoId: randomVideoID } }}
+        location={{ state: { data: mockSearchVideo.items } }}
+      />,
     );
 
     await waitFor(() => expect(api.getVideoInfo).toHaveBeenCalled());
@@ -54,8 +52,7 @@ describe('Funcionalidades Componente Video Page', () => {
     expect(screen.getByTestId('videoinfo')).toBeInTheDocument();
     expect(screen.getByTestId('channelinfo')).toBeInTheDocument();
     expect(screen.getByTestId('comments')).toBeInTheDocument();
-  })
-
+  });
 
   it('Vídeo selecionado atualiza os dados do vídeo atual na página', async () => {
     const randomVideoID = mockSearchVideo.items[1].id.videoId;
@@ -64,7 +61,7 @@ describe('Funcionalidades Componente Video Page', () => {
         match={{ params: { videoId: randomVideoID } }}
         location={{ state: { data: mockSearchVideo.items } }}
       />,
-      { route: `/watch/${randomVideoID}` }
+      { route: `/watch/${randomVideoID}` },
     );
 
     await waitFor(() => expect(api.getVideoInfo).toHaveBeenCalled());
@@ -75,6 +72,6 @@ describe('Funcionalidades Componente Video Page', () => {
     await waitFor(() => expect(api.getVideoInfo).toHaveBeenCalled());
     await waitFor(() => expect(api.getVideoComments).toHaveBeenCalled());
 
-    expect(history.location.pathname).not.toEqual(`/watch/${randomVideoID}`)
-  })
-})
+    expect(history.location.pathname).not.toEqual(`/watch/${randomVideoID}`);
+  });
+});

@@ -1,9 +1,8 @@
 const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3';
 const YOUTUBE_AUTH_KEY = () => {
-  const auth =
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_API_KEY
-      : null;
+  const auth = process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_API_KEY
+    : null;
   return auth;
 };
 

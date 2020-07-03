@@ -28,7 +28,7 @@ class SearchResult extends Component {
     const { searchParam } = this.props.match.params;
 
     searchVideos(searchParam).then(
-      (data) => this.setState({ data: data.items }),
+      (data) => this.setState({ data: data.items.slice(0, 24) }),
       (error) => this.setState({ error }),
     );
   }
