@@ -66,7 +66,7 @@ class VideoPage extends Component {
     return (
       <main>
         <section className="player">
-          <VideoPlayer embedId={this.state.videoId} />
+          <VideoPlayer embedId={this.state.videoId} title={this.state.videoInfo.snippet.title}/>
           <VideoPlayerInfo
             statisticsInfo={this.state.videoInfo.statistics}
             title={this.state.videoInfo.snippet.title}

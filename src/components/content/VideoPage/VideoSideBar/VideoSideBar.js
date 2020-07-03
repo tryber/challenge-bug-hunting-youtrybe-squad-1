@@ -15,14 +15,15 @@ class VideoSideBar extends Component {
       event.preventDefault();
       return callback(value);
     }
+    return undefined;
   }
 
   render() {
     const { relatedVideos, handleSelectedVideo } = this.props;
     return (
       <>
-        {relatedVideos.map((video, index) => (
-          <Fragment key={`Video nr.: ${index}-ID: ${video.id.videoId}`}>
+        {relatedVideos.map((video) => (
+          <Fragment key={video.id.videoId}>
             <div
               role="button"
               tabIndex={0}
