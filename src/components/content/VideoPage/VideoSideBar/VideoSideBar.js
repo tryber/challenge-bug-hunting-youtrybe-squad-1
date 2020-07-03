@@ -21,7 +21,7 @@ class VideoSideBar extends Component {
   render() {
     const { relatedVideos, handleSelectedVideo } = this.props;
     return (
-      <>
+      <Fragment>
         {relatedVideos.map((video) => (
           <Fragment key={`ID: ${video.id.videoId}- Verifier: ${Math.random() * 10}`}>
             <div
@@ -47,7 +47,7 @@ class VideoSideBar extends Component {
             </div>
           </Fragment>
         ))}
-      </>
+      </Fragment>
     );
   }
 }

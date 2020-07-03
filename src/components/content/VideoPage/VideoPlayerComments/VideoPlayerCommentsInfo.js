@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 class VideoPlayerCommentsInfo extends Component {
   render() {
     const { statisticsInfo } = this.props;
     return (
-      <>
+      <Fragment>
         <div className="comment-toolbar">
           <div className="comment-count">
             <span>
@@ -22,7 +22,7 @@ class VideoPlayerCommentsInfo extends Component {
           <i className="material-icons account-icon">account_circle</i>
           <input type="text" placeholder="Add a public comment..." />
         </div>
-      </>
+      </Fragment>
     );
   }
 }

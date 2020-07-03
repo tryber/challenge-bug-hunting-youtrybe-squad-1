@@ -1,26 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import formatDate from '../../../../helper';
 import profileIcon from '../../../../assets/profile.jpg';
 
 class VideoPlayerUsersComments extends Component {
-  static formatDate(publishedAt) {
-    const dateObj = new Date(publishedAt);
-
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
-    ];
-
-    const month = monthNames[dateObj.getMonth()];
-    const day = dateObj.getUTCDate();
-    const year = dateObj.getUTCFullYear();
-
-    return `Published on ${month} ${day}, ${year}`;
-  }
-
   render() {
     const { videoComments } = this.props;
     // authorProfileImageUrl
     return (
-      <>
+      <Fragment>
         {
           videoComments.map((comment) => (
             <div className="comment" key={comment.id}>
@@ -31,7 +18,7 @@ class VideoPlayerUsersComments extends Component {
                 <h3>
                   {comment.snippet.topLevelComment.snippet.authorDisplayName}
                   <span>
-                    {VideoPlayerUsersComments.formatDate(comment
+                    {formatDate(comment
                       .snippet
                       .topLevelComment
                       .snippet
@@ -56,7 +43,7 @@ class VideoPlayerUsersComments extends Component {
             </div>
           ))
         }
-      </>
+      </Fragment>
     );
   }
 }

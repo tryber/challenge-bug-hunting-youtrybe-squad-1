@@ -48,22 +48,7 @@ class VideoPage extends Component {
     getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
   }
 
-  render() {
-    const { videoId, videoComments, shouldRedirect, relatedVideos, videoInfo } = this.state;
-
-    if (!videoInfo || !videoComments) return <main />;
-
-    if (shouldRedirect) {
-      return (
-        <Redirect
-          to={{
-            pathname: `/watch/${videoId}`,
-            state: { data: relatedVideos },
-          }}
-        />
-      );
-    }
-
+  renderVideoPage(videoId, videoInfo, videoComments, relatedVideos) {
     return (
       <main>
         <section className="player">
@@ -93,6 +78,25 @@ class VideoPage extends Component {
         </section>
       </main>
     );
+  }
+
+  render() {
+    const { videoId, videoComments, shouldRedirect, relatedVideos, videoInfo } = this.state;
+
+    if (!videoInfo || !videoComments) return <main />;
+
+    if (shouldRedirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/watch/${videoId}`,
+            state: { data: relatedVideos },
+          }}
+        />
+      );
+    }
+
+    return this.renderVideoPage(videoId, videoInfo, videoComments, relatedVideos);
   }
 }
 
