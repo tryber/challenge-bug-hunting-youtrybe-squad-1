@@ -17,9 +17,7 @@ class App extends Component {
         <div className="App">
           <Header />
           <Switch>
-            <Route exact path="/">
-              <InitialPage />
-            </Route>
+            <Route exact path="/" component={InitialPage} />
             <Route
               exact
               path="/watch/:videoId"
@@ -30,9 +28,7 @@ class App extends Component {
               path="/results/:searchParam"
               render={(props) => <SearchResult {...props} />}
             />
-            <Route path="*">
-              <NotFound />
-            </Route>
+            <Route path="*" component={NotFound} />
           </Switch>
         </div>
       </Router>

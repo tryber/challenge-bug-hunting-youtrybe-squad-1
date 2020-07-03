@@ -16,18 +16,29 @@ class SearchResult extends Component {
   }
 
   componentDidMount() {
-    const { searchInput: searchParam } = this.props.location.state;
+    this.getVideos();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) return this.getVideos();
+    return false;
+  }
+
+  getVideos() {
+    const { match: { params: { searchParam } } } = this.props;
 
     searchVideos(searchParam).then(
-      (data) => this.setState({ data: data.items }),
+      (data) => this.setState({ data: data.items.slice(0, 24) }),
       (error) => this.setState({ error }),
     );
   }
 
   render() {
-    const { data } = this.state;
+    const { data, error } = this.state;
 
     if (data.length < 1) return <div>Loading...</div>;
+
+    if (error) return <div>{error}</div>;
 
     return (
       <div>

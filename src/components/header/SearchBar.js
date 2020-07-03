@@ -7,17 +7,13 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      searchInput: '',
-    };
+    this.state = { searchInput: '' };
 
     this.handleSearchInput = this.handleSearchInput.bind(this);
   }
 
   handleSearchInput(event) {
-    const {
-      target: { value },
-    } = event;
+    const { target: { value } } = event;
     this.setState({ searchInput: value });
   }
 

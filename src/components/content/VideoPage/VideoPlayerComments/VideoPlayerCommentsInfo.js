@@ -7,7 +7,10 @@ class VideoPlayerCommentsInfo extends Component {
       <Fragment>
         <div className="comment-toolbar">
           <div className="comment-count">
-            <span>{statisticsInfo.commentCount} </span>
+            <span>
+              {statisticsInfo.commentCount}
+              {' '}
+            </span>
             <span>Comments</span>
           </div>
           <div className="comment-count">
