@@ -29,7 +29,7 @@ class VideoSideBar extends Component {
               tabIndex={0}
               data-testid="selectedVideo"
               className="suggested-video"
-              onClick={() => handleSelectedVideo(video.id.videoId)}
+              onClick={() => handleSelectedVideo(video.id.videoId, video)}
               onKeyPress={(event) => VideoSideBar.onKeyPress(
                 event,
                 handleSelectedVideo,

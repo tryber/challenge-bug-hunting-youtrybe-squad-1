@@ -10,6 +10,7 @@ import {
   getVideoComments,
   getRelatedVideos,
 } from '../../../api/service';
+import addToLocalStorage from '../../../api/localStorage';
 
 class VideoPage extends Component {
   constructor(props) {
@@ -29,11 +30,12 @@ class VideoPage extends Component {
   }
 
   componentDidMount() {
-    this.saveViewedVideos();
+    const { location: { state: { item } } } = this.props;
+    addToLocalStorage('viewedVideos', item);
     this.mountVideoPage();
   }
 
-  handleSelectedVideo(videoId) {
+  handleSelectedVideo(videoId, video) {
     this.setState({ videoId }, () => {
       getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
       getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
@@ -43,7 +45,7 @@ class VideoPage extends Component {
           .slice(0, 24),
       }));
     });
-
+    addToLocalStorage('viewedVideos', video);
     return this.setState({ shouldRedirect: true });
   }
 
@@ -57,19 +59,6 @@ class VideoPage extends Component {
         .slice(0, 24),
     }));
     this.setState({ shouldRedirect: false });
-  }
-
-  saveViewedVideos() {
-    const { location: { state: { item } } } = this.props;
-    const viewedVideos = JSON.parse(
-      localStorage.getItem('viewedVideos') || '[]',
-    );
-    const viewedArray = viewedVideos.filter((element) => element !== item);
-    const storeviewedVideo = localStorage.setItem(
-      'viewedVideos',
-      JSON.stringify([...viewedArray, item]),
-    );
-    return storeviewedVideo;
   }
 
   renderVideoPage(videoId, videoInfo, videoComments, relatedVideos) {

@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import VideoCard from './VideoCard/VideoCard';
-import '../../../css/sideBar.css';
+import VideoCard from '../content/SearchResult/VideoCard/VideoCard';
+import '../../css/sideBar.css';
 
 class ViewedVideos extends Component {
   constructor(props) {
     super(props);
 
-    const data = JSON.parse(
-      localStorage.getItem('viewedVideos') || '[]',
-    );
-
-    this.state = {
-      data,
-    }
+    this.state = { data: [] };
   }
+
+  componentDidMount() {
+    this.mountViewedComponent();
+  }
+
+  mountViewedComponent() {
+    const data = JSON.parse(localStorage.getItem('viewedVideos'));
+    console.log(data, JSON.parse(localStorage.getItem('viewedVideos')));
+    return this.setState({ data: [...data] });
+  }
+
   render() {
     const { data } = this.state;
 
