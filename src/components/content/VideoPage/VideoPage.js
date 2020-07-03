@@ -32,30 +32,29 @@ class VideoPage extends Component {
   }
 
   handleSelectedVideo(videoId) {
-    this.setState({ videoId });
-    getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
+    this.setState({ videoId }, () => {
+      getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
+      getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
+    });
 
-    getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
     return this.setState({ shouldRedirect: true });
   }
 
   mountVideoPage() {
     const { videoId } = this.state;
 
-    this.setState({ shouldRedirect: false });
-    getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
+    return this.setState({ shouldRedirect: false }, () => {
+      getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
 
-    getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
+      getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
+    });
   }
 
   renderVideoPage(videoId, videoInfo, videoComments, relatedVideos) {
     return (
       <main>
         <section className="player">
-          <VideoPlayer
-            embedId={videoId}
-            title={videoInfo.snippet.title}
-          />
+          <VideoPlayer embedId={videoId} title={videoInfo.snippet.title} />
           <VideoPlayerInfo
             statisticsInfo={videoInfo.statistics}
             title={videoInfo.snippet.title}
@@ -81,11 +80,18 @@ class VideoPage extends Component {
   }
 
   render() {
-    const { videoId, videoComments, shouldRedirect, relatedVideos, videoInfo } = this.state;
+    const {
+      videoId,
+      videoComments,
+      shouldRedirect,
+      relatedVideos,
+      videoInfo,
+    } = this.state;
 
     if (!videoInfo || !videoComments) return <main />;
 
     if (shouldRedirect) {
+      this.setState({ shouldRedirect: false });
       return (
         <Redirect
           to={{
@@ -96,7 +102,12 @@ class VideoPage extends Component {
       );
     }
 
-    return this.renderVideoPage(videoId, videoInfo, videoComments, relatedVideos);
+    return this.renderVideoPage(
+      videoId,
+      videoInfo,
+      videoComments,
+      relatedVideos,
+    );
   }
 }
 
