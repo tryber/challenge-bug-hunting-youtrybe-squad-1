@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import VideoCard from './VideoCard/VideoCard';
 import { Link } from 'react-router-dom';
+import VideoCard from './VideoCard/VideoCard';
 
 import '../../../css/sideBar.css';
 import { searchVideos } from '../../../api/service';
@@ -16,27 +16,43 @@ class SearchResult extends Component {
   }
 
   componentDidMount() {
-    const {
-      params: { searchParam },
-    } = this.props.match;
+    this.getVideos();
+  }
 
-    searchVideos(searchParam).then((data) => {
-      this.setState({ data: data.items });
-    }).catch(error => this.setState({error: error}))
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) return this.getVideos();
+    return false;
+  }
+
+  getVideos() {
+    const { match: { params: { searchParam } } } = this.props;
+
+    searchVideos(searchParam).then(
+      (data) => this.setState({ data: data.items.slice(0, 24) }),
+      (error) => this.setState({ error }),
+    );
   }
 
   render() {
-    const { data } = this.state;
+    const { data, error } = this.state;
 
-    if (data.length < 1) return (<div>Loading...</div>)
+    if (data.length < 1) return <div>Loading...</div>;
+
+    if (error) return <div>{error}</div>;
 
     return (
       <div>
         {data.map((item) => (
-          <Link className="thumbnail-card" key={item.etag} to={{
-            pathname: `/watch/${item.id.videoId}`,
-            state: { data: data }
-          }}><VideoCard video={item} /></Link>
+          <Link
+            className="thumbnail-card"
+            key={item.etag}
+            to={{
+              pathname: `/watch/${item.id.videoId}`,
+              state: { data },
+            }}
+          >
+            <VideoCard video={item} />
+          </Link>
         ))}
       </div>
     );

@@ -3,28 +3,34 @@ import React, { Component } from 'react';
 import '../../../../css/searchResult.css';
 
 class VideoCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
+  static propsComparator(props, param1, param2) {
+    return !!(props === param1 || props === param2);
   }
 
   render() {
+    const { video } = this.props;
+    const { id: { kind }, snippet } = video;
+    const { thumbnails: { medium: { url } }, channelTitle, description, title } = snippet;
     return (
       <div className="suggested-video search-result">
         <div className="thumbnail">
-          <img
-            alt="thumbnail"
-            src={this.props.video.snippet.thumbnails.medium.url}
-          />
-          {this.props.video.id.kind === 'youtube#video' ? <span>17:30</span> : null}
+          <img alt="thumbnail" src={url} />
+          {VideoCard.propsComparator(
+            kind,
+            'youtube#video',
+            'youtube#channel',
+          ) && <span>17:30</span>}
         </div>
 
         <div className="thumbnail-info">
-          <h2>{this.props.video.snippet.title}</h2>
-          <div className="channel">{this.props.video.snippet.channelTitle}</div>
-          {this.props.video.id.kind === 'youtube#video' ? <div className="views">792K views</div> : null}
-          <p className="description">{this.props.video.snippet.description}</p>
+          <h2>{title}</h2>
+          <div className="channel">{channelTitle}</div>
+          {VideoCard.propsComparator(
+            kind,
+            'youtube#video',
+            'youtube#channel',
+          ) && <div className="views">792K views</div>}
+          <p className="description">{description}</p>
         </div>
       </div>
     );
