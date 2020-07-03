@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import addToLocalStorage from '../../api/localStorage';
 import '../../css/searchBar.css';
 
 class SearchBar extends Component {
@@ -13,7 +13,9 @@ class SearchBar extends Component {
   }
 
   handleSearchInput(event) {
-    const { target: { value } } = event;
+    const {
+      target: { value },
+    } = event;
     this.setState({ searchInput: value });
   }
 
@@ -32,6 +34,9 @@ class SearchBar extends Component {
         <div className="search-btn">
           <Link
             className="material-icons search-icon"
+            onClick={() => {
+              addToLocalStorage('searchHistory', searchInput);
+            }}
             to={{ pathname: `/results/${searchInput}`, state: { searchInput } }}
           >
             search
