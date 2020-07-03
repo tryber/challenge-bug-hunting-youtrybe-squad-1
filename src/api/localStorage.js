@@ -1,7 +1,8 @@
 export default function addToLocalStorage(key, value) {
-  const jsonKey = JSON.stringify(key);
-  if (!localStorage[jsonKey]) localStorage[jsonKey] = JSON.stringify([]);
-  const searchHistory = JSON.parse(localStorage[jsonKey]);
-  const updatedSearchHistory = [...searchHistory, value];
-  localStorage[jsonKey] = JSON.stringify(updatedSearchHistory);
+  // const jsonKey = JSON.stringify(key);
+  if (!localStorage[key]) localStorage[key] = JSON.stringify([]);
+  const searchHistory = JSON.parse(localStorage[key]);
+  const historyArray = searchHistory.filter((element) => element !== value);
+  const updatedSearchHistory = [...historyArray, value];
+  localStorage[key] = JSON.stringify(updatedSearchHistory);
 }

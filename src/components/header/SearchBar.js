@@ -9,7 +9,7 @@ class SearchBar extends Component {
 
     this.state = {
       searchInput: '',
-      keyEnter: false
+      keyEnter: false,
     };
 
     this.handleSearchInput = this.handleSearchInput.bind(this);
@@ -17,12 +17,10 @@ class SearchBar extends Component {
   }
 
   pressEnterKey(event) {
-    const { searchInput } = this.state;
     const enterOrSpace = event.key === 'Enter'
       || event.keyCode === 13;
 
     if (enterOrSpace) {
-      console.log('enter')
       event.preventDefault();
       this.setState({ keyEnter: true });
     }
@@ -44,7 +42,8 @@ class SearchBar extends Component {
         <Redirect
           to={{ pathname: `/results/${searchInput}`, state: { searchInput } }}
         />
-      )}
+      );
+    }
 
     return (
       <div className="searchbar">

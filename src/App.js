@@ -8,7 +8,7 @@ import Header from './components/header/Header';
 import VideoPage from './components/content/VideoPage/VideoPage';
 import SearchResult from './components/content/SearchResult';
 import NotFound from './components/content/NotFound';
-import InitialPage from './components/content/InitialPage';
+import Profile from './components/Profile';
 
 class App extends Component {
   render() {
@@ -28,6 +28,7 @@ class App extends Component {
               path="/results/:searchParam"
               render={(props) => <SearchResult {...props} />}
             />
+            <Route to="/profile" component={Profile} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

@@ -43,3 +43,16 @@ export const getVideoComments = async (videoId) => {
     return error;
   }
 };
+
+export const getRelatedVideos = async (videoId) => {
+  const urlParams = `part=snippet&relatedToVideoId=${videoId}&type=video&key=${YOUTUBE_AUTH_KEY()}`;
+  const URL = `${YOUTUBE_API_URL}/search?${urlParams}`;
+
+  try {
+    const response = await fetch(URL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return error;
+  }
+};

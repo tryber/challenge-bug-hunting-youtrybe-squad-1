@@ -5,20 +5,22 @@ import VideoPlayerDescription from './VideoPlayer/VideoPlayerDescription';
 import VideoPlayerInfo from './VideoPlayer/VideoPlayerInfo';
 import VideoPlayerComments from './VideoPlayerComments/VideoPlayerComments';
 import VideoSideBar from './VideoSideBar/VideoSideBar';
-import { getVideoInfo, getVideoComments } from '../../../api/service';
+import {
+  getVideoInfo,
+  getVideoComments,
+  getRelatedVideos,
+} from '../../../api/service';
+import addToLocalStorage from '../../../api/localStorage';
 
 class VideoPage extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      match: { params: { videoId } },
-      location: { state: { data } },
-    } = this.props;
+    const { match: { params: { videoId } } } = this.props;
 
     this.state = {
       videoId,
-      relatedVideos: data,
+      relatedVideos: [],
       shouldRedirect: false,
       videoInfo: null,
       videoComments: null,
@@ -28,23 +30,35 @@ class VideoPage extends Component {
   }
 
   componentDidMount() {
+    const { location: { state: { item } } } = this.props;
+    addToLocalStorage('viewedVideos', item);
     this.mountVideoPage();
   }
 
-  handleSelectedVideo(videoId) {
+  handleSelectedVideo(videoId, video) {
     this.setState({ videoId }, () => {
       getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
       getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
+      getRelatedVideos(videoId).then((data) => this.setState({
+        relatedVideos: data
+          .items
+          .slice(0, 24),
+      }));
     });
-
+    addToLocalStorage('viewedVideos', video);
     return this.setState({ shouldRedirect: true });
   }
 
   mountVideoPage() {
     const { videoId } = this.state;
-    this.setState({ shouldRedirect: false });
     getVideoInfo(videoId).then((data) => this.setState({ videoInfo: data.items[0] }));
     getVideoComments(videoId).then((data) => this.setState({ videoComments: data.items }));
+    getRelatedVideos(videoId).then((data) => this.setState({
+      relatedVideos: data
+        .items
+        .slice(0, 24),
+    }));
+    this.setState({ shouldRedirect: false });
   }
 
   renderVideoPage(videoId, videoInfo, videoComments, relatedVideos) {
