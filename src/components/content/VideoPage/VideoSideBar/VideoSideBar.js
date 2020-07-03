@@ -23,7 +23,7 @@ class VideoSideBar extends Component {
     return (
       <>
         {relatedVideos.map((video) => (
-          <Fragment key={video.id.videoId}>
+          <Fragment key={`ID: ${video.id.videoId}- Verifier: ${Math.random() * 10}`}>
             <div
               role="button"
               tabIndex={0}
